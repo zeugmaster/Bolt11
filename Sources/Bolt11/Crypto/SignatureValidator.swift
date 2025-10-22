@@ -1,5 +1,5 @@
 import Foundation
-import libsecp256k1
+import secp256k1
 
 /// Validates ECDSA signatures using secp256k1
 struct SignatureValidator {

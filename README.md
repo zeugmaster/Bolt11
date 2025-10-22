@@ -26,9 +26,11 @@ Add this package to your `Package.swift` dependencies:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/zeugmaster/Bolt11.git", from: "0.1.0")
+    .package(url: "https://github.com/zeugmaster/Bolt11.git", from: "0.1.1")
 ]
 ```
+
+> **Note**: This package uses the `zeugmaster/swift-secp256k1` fork to avoid duplicate symbol errors when used with CashuSwift or other packages using the same secp256k1 implementation.
 
 ## Usage
 

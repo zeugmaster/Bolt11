@@ -1,0 +1,38 @@
+// swift-tools-version: 6.1
+// This is an alternative Package.swift that makes secp256k1 a peer dependency
+// Use this if your app already provides secp256k1 (e.g., through CashuSwift)
+
+import PackageDescription
+
+let package = Package(
+    name: "Bolt11",
+    platforms: [
+        .macOS(.v13),
+        .iOS(.v16),
+    ],
+    products: [
+        .library(
+            name: "Bolt11",
+            targets: ["Bolt11"]),
+    ],
+    dependencies: [
+        // No secp256k1 dependency - your app must provide it
+        // This prevents duplicate symbol errors when multiple packages use secp256k1
+    ],
+    targets: [
+        .target(
+            name: "Bolt11",
+            dependencies: [
+                // Expects libsecp256k1 to be provided by the consuming application
+            ]),
+        .testTarget(
+            name: "Bolt11Tests",
+            dependencies: [
+                "Bolt11",
+                // Tests need secp256k1, so add it here
+                .product(name: "libsecp256k1", package: "secp256k1.swift"),
+            ]
+        ),
+    ]
+)
+

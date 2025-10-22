@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1] - 2025-10-21
+
+### Fixed
+- Updated secp256k1 dependency to use zeugmaster/swift-secp256k1 fork
+- Resolves duplicate symbol errors when used alongside CashuSwift or other packages using the same secp256k1 fork
+- Changed import from `libsecp256k1` to `secp256k1` to match fork's module structure
+
 ## [0.1.0] - 2025-10-21
 
 ### Added
