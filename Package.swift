@@ -16,7 +16,7 @@ let package = Package(
             targets: ["Bolt11"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/zeugmaster/swift-secp256k1.git", branch: "main"),
+        .package(url: "https://github.com/21-DOT-DEV/swift-secp256k1.git", exact: "0.19.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
