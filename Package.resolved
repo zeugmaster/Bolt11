@@ -1,6 +1,15 @@
 {
-  "originHash" : "5adcd976960735f0905b09359f6fe791e17420bb95eeea94440ae60cb5cc6893",
+  "originHash" : "d423d56d36383195f75b520c0aa2463f50e6a092e1c4e3571427bb3150015d1c",
   "pins" : [
+    {
+      "identity" : "bech32swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zeugmaster/Bech32Swift.git",
+      "state" : {
+        "revision" : "72ff0e36f88290396190bd3067800e44e851a2a4",
+        "version" : "1.0.0"
+      }
+    },
     {
       "identity" : "swift-secp256k1",
       "kind" : "remoteSourceControl",

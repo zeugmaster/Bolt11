@@ -1,4 +1,5 @@
 import Foundation
+import Bech32Swift
 
 /// Main decoder for BOLT #11 Lightning invoices
 public struct Bolt11Decoder {
@@ -8,7 +9,12 @@ public struct Bolt11Decoder {
     /// - Throws: Bolt11Error if the invoice is invalid
     public static func decode(_ invoiceString: String) throws -> Invoice {
         // Step 1: Decode Bech32
-        let decoded = try Bech32Decoder.decode(invoiceString)
+        let decoded: Bech32Decoder.DecodedBech32
+        do {
+            decoded = try Bech32Decoder.decode(invoiceString)
+        } catch let error as Bech32Error {
+            throw Bolt11Error.from(bech32Error: error)
+        }
         
         // Step 2: Parse human-readable part
         let hrp = try HumanReadablePartParser.parse(decoded.hrp)

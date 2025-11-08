@@ -23,13 +23,13 @@ struct DataPartParser {
         
         // Parse timestamp (35 bits = 7 5-bit groups)
         let timestampData = Array(data.prefix(7))
-        guard let timestamp: UInt64 = Bech32Utilities.parseBigEndianInt(from: timestampData, bitCount: 35) else {
+        guard let timestamp: UInt64 = Bech32Bridge.parseBigEndianInt(from: timestampData, bitCount: 35) else {
             throw Bolt11Error.invalidTimestamp
         }
         
         // Signature is last 104 5-bit groups (520 bits = 65 bytes)
         let signatureData = Array(data.suffix(104))
-        let signatureBytes = try Bech32Utilities.extractBytes(from: signatureData, byteCount: 65)
+        let signatureBytes = try Bech32Bridge.extractBytes(from: signatureData, byteCount: 65)
         
         // Last byte is recovery ID
         let recoveryId = signatureBytes[64]

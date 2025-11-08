@@ -17,6 +17,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/21-DOT-DEV/swift-secp256k1.git", exact: "0.19.0"),
+        .package(url: "https://github.com/zeugmaster/Bech32Swift.git", from: "1.0.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -25,6 +26,7 @@ let package = Package(
             name: "Bolt11",
             dependencies: [
                 .product(name: "secp256k1", package: "swift-secp256k1"),
+                .product(name: "Bech32Swift", package: "Bech32Swift"),
             ]),
         .testTarget(
             name: "Bolt11Tests",

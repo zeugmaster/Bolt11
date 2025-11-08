@@ -46,18 +46,18 @@ struct TaggedFieldParser {
             guard data.count == 52 else {
                 throw Bolt11Error.invalidFieldLength(field: "p", expected: 52, got: data.count)
             }
-            let bytes = try Bech32Utilities.extractBytes(from: data, byteCount: 32)
+            let bytes = try Bech32Bridge.extractBytes(from: data, byteCount: 32)
             return .paymentHash(bytes)
             
         case 16: // Payment secret
             guard data.count == 52 else {
                 throw Bolt11Error.invalidFieldLength(field: "s", expected: 52, got: data.count)
             }
-            let bytes = try Bech32Utilities.extractBytes(from: data, byteCount: 32)
+            let bytes = try Bech32Bridge.extractBytes(from: data, byteCount: 32)
             return .paymentSecret(bytes)
             
         case 13: // Description
-            let bytes = try Bech32Utilities.dataToBytes(data)
+            let bytes = try Bech32Bridge.dataToBytes(data)
             guard let description = String(data: bytes, encoding: .utf8) else {
                 throw Bolt11Error.invalidUTF8
             }
@@ -67,14 +67,14 @@ struct TaggedFieldParser {
             guard data.count == 53 else {
                 throw Bolt11Error.invalidFieldLength(field: "n", expected: 53, got: data.count)
             }
-            let bytes = try Bech32Utilities.extractBytes(from: data, byteCount: 33)
+            let bytes = try Bech32Bridge.extractBytes(from: data, byteCount: 33)
             return .payeePublicKey(bytes)
             
         case 23: // Description hash
             guard data.count == 52 else {
                 throw Bolt11Error.invalidFieldLength(field: "h", expected: 52, got: data.count)
             }
-            let bytes = try Bech32Utilities.extractBytes(from: data, byteCount: 32)
+            let bytes = try Bech32Bridge.extractBytes(from: data, byteCount: 32)
             return .descriptionHash(bytes)
             
         case 6: // Expiry time
@@ -82,7 +82,7 @@ struct TaggedFieldParser {
             if data.first == 0 {
                 throw Bolt11Error.nonMinimalEncoding("x")
             }
-            guard let expiry: UInt64 = Bech32Utilities.parseBigEndianInt(from: data, bitCount: data.count * 5) else {
+            guard let expiry: UInt64 = Bech32Bridge.parseBigEndianInt(from: data, bitCount: data.count * 5) else {
                 throw Bolt11Error.invalidBech32Encoding
             }
             return .expiryTime(expiry)
@@ -92,7 +92,7 @@ struct TaggedFieldParser {
             if data.first == 0 {
                 throw Bolt11Error.nonMinimalEncoding("c")
             }
-            guard let minCltv: UInt64 = Bech32Utilities.parseBigEndianInt(from: data, bitCount: data.count * 5) else {
+            guard let minCltv: UInt64 = Bech32Bridge.parseBigEndianInt(from: data, bitCount: data.count * 5) else {
                 throw Bolt11Error.invalidBech32Encoding
             }
             return .minFinalCltvExpiry(minCltv)
@@ -108,16 +108,16 @@ struct TaggedFieldParser {
             if data.first == 0 {
                 throw Bolt11Error.nonMinimalEncoding("9")
             }
-            let bytes = try Bech32Utilities.dataToBytes(data)
+            let bytes = try Bech32Bridge.dataToBytes(data)
             return .features(bytes)
             
         case 27: // Metadata
-            let bytes = try Bech32Utilities.dataToBytes(data)
+            let bytes = try Bech32Bridge.dataToBytes(data)
             return .metadata(bytes)
             
         default:
             // Unknown field - store as-is
-            let bytes = try Bech32Utilities.dataToBytes(data)
+            let bytes = try Bech32Bridge.dataToBytes(data)
             return .unknown(type: type, data: bytes)
         }
     }
@@ -131,7 +131,7 @@ struct TaggedFieldParser {
         let version = data[0]
         let addressData = Array(data.dropFirst())
         
-        let bytes = try Bech32Utilities.dataToBytes(addressData)
+        let bytes = try Bech32Bridge.dataToBytes(addressData)
         let address = FallbackAddress(version: version, data: bytes)
         
         return .fallbackAddress(address)
@@ -155,7 +155,7 @@ struct TaggedFieldParser {
             let hopData = Array(data[index..<(index + hopSize)])
             
             // Convert to bytes
-            let hopBytes = try Bech32Utilities.dataToBytes(hopData)
+            let hopBytes = try Bech32Bridge.dataToBytes(hopData)
             guard hopBytes.count >= 51 else {
                 throw Bolt11Error.invalidRoutingInfo
             }

@@ -1,4 +1,5 @@
 import Foundation
+import Bech32Swift
 
 /// Errors that can occur during BOLT #11 invoice decoding
 public enum Bolt11Error: Error, LocalizedError, Equatable {
@@ -113,6 +114,26 @@ public enum Bolt11Error: Error, LocalizedError, Equatable {
             return "Invalid public key"
         case .invalidDescriptionHash:
             return "Invalid description hash"
+        }
+    }
+    
+    /// Map a Bech32Error to a Bolt11Error
+    static func from(bech32Error: Bech32Error) -> Bolt11Error {
+        switch bech32Error {
+        case .invalidBech32Encoding:
+            return .invalidBech32Encoding
+        case .invalidChecksum:
+            return .invalidChecksum
+        case .mixedCase:
+            return .mixedCase
+        case .noSeparator:
+            return .noSeparator
+        case .invalidCharacter(let char):
+            return .invalidCharacter(char)
+        case .emptyHRP:
+            return .emptyHRP
+        case .emptyData:
+            return .emptyData
         }
     }
 }
